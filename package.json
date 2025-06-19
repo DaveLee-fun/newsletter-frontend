@@ -1,0 +1,30 @@
+{
+  "name": "newsletter-frontend",
+  "version": "1.0.0",
+  "description": "Newsletter frontend with Tailwind CSS and Vanilla JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "dev-node": "npx http-server -p 8000 -c-1",
+    "build": "echo 'Static files ready for deployment'",
+    "deploy": "gh-pages -d ."
+  },
+  "keywords": [
+    "newsletter",
+    "frontend",
+    "tailwind",
+    "vanilla-js",
+    "static-site"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/newsletter-frontend.git"
+  },
+  "homepage": "https://YOUR_USERNAME.github.io/newsletter-frontend"
+} 
