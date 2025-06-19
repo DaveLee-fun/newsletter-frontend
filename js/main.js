@@ -202,7 +202,7 @@ function showSuccessMessage() {
 }
 
 /**
- * 에러 메시지 표시
+ * 에러 메시지 표시 - 개선된 깔끔한 UX
  */
 function showErrorMessage(message) {
     // 기존 메시지 제거
@@ -210,13 +210,21 @@ function showErrorMessage(message) {
     
     // 새 에러 메시지 생성
     const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message mt-4 p-4 bg-red-50 border border-red-200 rounded-lg';
+    errorDiv.className = 'error-message mt-6 p-6 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg';
     errorDiv.innerHTML = `
-        <div class="flex items-center space-x-3">
-            <div class="flex-shrink-0">
-                <i class="fas fa-exclamation-circle text-red-500"></i>
+        <div class="text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
             </div>
-            <div class="text-red-800 text-sm">${message}</div>
+            <h3 class="text-red-800 font-bold text-lg mb-2">구독 신청 중 오류가 발생했습니다</h3>
+            <p class="text-red-700 text-sm mb-4">${message}</p>
+            <div class="bg-white bg-opacity-60 rounded-lg p-3 text-xs text-red-600 mb-4">
+                <i class="fas fa-info-circle mr-1"></i>
+                문제가 지속되면 잠시 후 다시 시도해주세요
+            </div>
+            <button onclick="clearAllMessages()" class="text-red-600 hover:text-red-800 text-sm font-medium underline">
+                닫기
+            </button>
         </div>
     `;
     
@@ -226,42 +234,41 @@ function showErrorMessage(message) {
     // 에러 메시지로 스크롤
     errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     
-    // 5초 후 자동 제거
+    // 7초 후 자동 제거
     setTimeout(() => {
-        errorDiv.remove();
-    }, 5000);
+        if (errorDiv.parentNode) {
+            errorDiv.remove();
+        }
+    }, 7000);
 }
 
 /**
- * 중복 이메일 전용 메시지 표시
+ * 중복 이메일 전용 메시지 표시 - 개선된 깔끔한 UX
  */
 function showDuplicateEmailMessage() {
     // 기존 메시지 제거
     clearAllMessages();
     
-    // 이미 구독 중임을 알리는 친화적인 메시지
+    // 이미 구독 중임을 알리는 친화적이고 깔끔한 메시지
     const infoDiv = document.createElement('div');
-    infoDiv.className = 'duplicate-message mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg';
+    infoDiv.className = 'duplicate-message mt-6 p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg';
     infoDiv.innerHTML = `
-        <div class="flex items-center space-x-3">
-            <div class="flex-shrink-0">
-                <i class="fas fa-info-circle text-blue-500"></i>
+        <div class="text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                <i class="fas fa-check-circle text-green-500 text-2xl"></i>
             </div>
-            <div class="text-blue-800">
-                <div class="font-semibold text-sm">이미 구독하고 계십니다! 🎉</div>
-                <div class="text-sm mt-1">
-                    입력하신 이메일로 이미 뉴스레터를 구독하고 계세요. 
-                    다음 뉴스레터를 기대해주세요!
-                </div>
-                <div class="flex items-center space-x-4 mt-3">
-                    <button onclick="showManageOptions()" class="text-blue-600 hover:text-blue-800 text-sm font-medium underline">
-                        구독 관리
-                    </button>
-                    <button onclick="clearAllMessages()" class="text-gray-600 hover:text-gray-800 text-sm">
-                        닫기
-                    </button>
-                </div>
+            <h3 class="text-green-800 font-bold text-lg mb-2">이미 구독 중입니다! 🎉</h3>
+            <p class="text-green-700 text-sm mb-4">
+                입력하신 이메일로 이미 AI Pulse 뉴스레터를 구독하고 계세요.<br>
+                <strong>다음 뉴스레터(화요일 오전 9시)</strong>를 기대해주세요!
+            </p>
+            <div class="bg-white bg-opacity-60 rounded-lg p-3 text-xs text-green-600 mb-4">
+                <i class="fas fa-info-circle mr-1"></i>
+                구독 해지를 원하시면 받으신 뉴스레터 하단의 '구독 해지' 링크를 클릭해주세요
             </div>
+            <button onclick="clearAllMessages()" class="text-green-600 hover:text-green-800 text-sm font-medium underline">
+                닫기
+            </button>
         </div>
     `;
     
@@ -273,40 +280,22 @@ function showDuplicateEmailMessage() {
     
     // 폼 초기화
     resetForm();
+    
+    // 10초 후 자동 숨김
+    setTimeout(() => {
+        if (infoDiv.parentNode) {
+            infoDiv.remove();
+        }
+    }, 10000);
 }
 
-/**
- * 구독 관리 옵션 표시
- */
-function showManageOptions() {
-    // 기존 메시지 제거
-    clearAllMessages();
-    
-    const manageDiv = document.createElement('div');
-    manageDiv.className = 'manage-message mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg';
-    manageDiv.innerHTML = `
-        <div class="text-center">
-            <div class="text-gray-800 font-semibold mb-3">구독 관리</div>
-            <div class="space-y-2 text-sm text-gray-600">
-                <p>• 구독 해지를 원하시면 받으신 뉴스레터 하단의 '구독 해지' 링크를 클릭해주세요</p>
-                <p>• 이메일 주소 변경을 원하시면 기존 구독을 해지 후 새로 가입해주세요</p>
-                <p>• 문의사항이 있으시면 답장으로 연락해주세요</p>
-            </div>
-            <button onclick="clearAllMessages()" class="mt-3 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-sm transition-colors">
-                닫기
-            </button>
-        </div>
-    `;
-    
-    subscriptionForm.parentNode.insertBefore(manageDiv, subscriptionForm.nextSibling);
-    manageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
+
 
 /**
  * 모든 메시지 제거
  */
 function clearAllMessages() {
-    const messages = document.querySelectorAll('.error-message, .duplicate-message, .manage-message');
+    const messages = document.querySelectorAll('.error-message, .duplicate-message');
     messages.forEach(msg => msg.remove());
     
     if (successMessage) {
