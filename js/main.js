@@ -7,7 +7,7 @@
 // Configuration - 배포 환경에 맞게 설정
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8000'  // 개발 환경
-    : 'https://ai-pulse-newsletter-api.onrender.com';  // 프로덕션 환경 (Render 배포 URL)
+    : 'https://newsletter-backend-c42b.onrender.com';  // 프로덕션 환경 (실제 Render 배포 URL)
 
 // DOM Elements - 실제 HTML ID와 일치하도록 수정
 let subscriptionForm, emailInput, submitBtn, successMessage;
